@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import questions from "./data/db";
+import questions from "../data/db";
 import { useRouter } from "next/navigation";
 
 export default function Questions() {

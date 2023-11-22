@@ -1,5 +1,5 @@
 "use client";
-import questions from "../data/db";
+import questions from "../../data/db";
 import { usePathname } from "next/navigation";
 
 export default function page() {

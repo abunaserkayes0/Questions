@@ -4,7 +4,7 @@ import React, { useState } from "react";
 export default function CreatePage() {
   const [divCount, setDivCount] = useState(1);
 
-  const createNewDiv = () => {
+  const createNewQuestion = () => {
     setDivCount(divCount + 1);
   };
   const newDiv = Array.from({ length: divCount }, (_, index) => (
@@ -113,7 +113,7 @@ export default function CreatePage() {
           <form onSubmit={handelSubmit}>
             <button
               type="submit"
-              onClick={createNewDiv}
+              onClick={createNewQuestion}
               className="w-full bg-blue-500 text-white p-3 mb-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
             >
               Add More Question

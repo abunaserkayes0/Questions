@@ -1,70 +1,96 @@
 "use client";
 import React, { useContext } from "react";
 import { AuthContext } from "../layout";
+import { Form, Input, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useForm, Controller } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import styles from "../Components/Login.module.css";
+import "antd/dist/antd";
 
 export default function Login() {
   const value = useContext(AuthContext);
-  // console.log(value);
 
-  const handelLoginForm = (e: any) => {
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    const loginUser = {
-      email,
-      password,
-    };
-    console.log(loginUser);
-    form.reset();
-  };
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => console.log(data);
 
   return (
     <>
       <div className="bg-gray-100 h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
-          <h2 className="text-2xl font-semibold mb-6">Sign Up</h2>
+        <div className="bg-white p-10 rounded shadow-md w-full sm:w-96">
+          <h2 className="font-semibold text-center text-3xl mb-5">Log In</h2>
+          <Form className={styles.login} onFinish={handleSubmit(onSubmit)}>
+            {/* Email Verification */}
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: "Email is required" }}
+              render={({ field }) => (
+                <Form.Item>
+                  <Input
+                    type="email"
+                    prefix={
+                      <UserOutlined className="site-form-item-icon p-3" />
+                    }
+                    placeholder="Email"
+                    {...field}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name="email"
+                    render={({ message }) => (
+                      <p className="text-red-400">{message}</p>
+                    )}
+                  />
+                </Form.Item>
+              )}
+            />
+            {/* Password Verification */}
+            <Controller
+              name="password"
+              control={control}
+              rules={{
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "password must be at least 6 characters",
+                },
+              }}
+              render={({ field }) => (
+                <Form.Item>
+                  <Input.Password
+                    type="password"
+                    prefix={
+                      <LockOutlined className="site-form-item-icon p-3" />
+                    }
+                    placeholder="Password"
+                    {...field}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name="password"
+                    render={({ message }) => (
+                      <p className="text-red-400">{message}</p>
+                    )}
+                  />
+                </Form.Item>
+              )}
+            />
 
-          <form onSubmit={handelLoginForm}>
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-gray-600 text-sm font-medium mb-2"
+            <Form.Item className=" flex items-center justify-center">
+              <Button
+                htmlType="submit"
+                className="bg-black text-white hover:bg-white hover:text-black"
+                size="large"
               >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-gray-600 text-sm font-medium mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-            >
-              Log In
-            </button>
-          </form>
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     </>

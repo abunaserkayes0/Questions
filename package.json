@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
+    "antd": "^5.11.2",
     "eslint": "^8.54.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.48.2",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
