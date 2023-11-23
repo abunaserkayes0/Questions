@@ -24,12 +24,14 @@ export default function CreateClassroom() {
     e.preventDefault();
     const from = e.target;
     const students_id = from.student;
-    const student = [];
-    for (const student_id of students_id) {
+    // const student = [];
+    /* for (const student_id of students_id) {
       const student_value = student_id.value;
       student.push(student_value);
     }
-    console.log(student);
+    console.log(student); */
+
+    console.log(students_id[students_id.value]);
   };
   return (
     <>
