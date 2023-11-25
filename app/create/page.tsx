@@ -55,7 +55,10 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input.TextArea {...field} />
+                        <Input.TextArea
+                          {...field}
+                          placeholder="Question-Title"
+                        />
                         <ErrorMessage
                           errors={errors}
                           name="question_title"
@@ -71,7 +74,7 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} />
+                        <Input {...field} placeholder="First_question" />
                         <ErrorMessage
                           errors={errors}
                           name="question_1"
@@ -87,7 +90,7 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} />
+                        <Input {...field} placeholder="Second_question" />
                         <ErrorMessage
                           errors={errors}
                           name="question_2"
@@ -104,7 +107,7 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} />
+                        <Input {...field} placeholder="Third_question" />
                         <ErrorMessage
                           errors={errors}
                           name="question_3"
@@ -121,7 +124,7 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} />
+                        <Input {...field} placeholder="Fourth_question" />
                         <ErrorMessage
                           errors={errors}
                           name="question_4"
@@ -138,7 +141,7 @@ export default function page() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} />
+                        <Input {...field} placeholder="Correct_question" />
                         <ErrorMessage
                           errors={errors}
                           name="correct_answer"

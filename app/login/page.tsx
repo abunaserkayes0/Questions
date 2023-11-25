@@ -5,8 +5,8 @@ import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import styles from "../Components/Login.module.css";
 import "antd/dist/antd";
+import Link from "next/link";
 
 export default function Login() {
   const value = useContext(AuthContext);
@@ -23,7 +23,7 @@ export default function Login() {
       <div className="bg-gray-100 h-screen flex items-center justify-center">
         <div className="bg-white p-10 rounded shadow-md w-full sm:w-96">
           <h2 className="font-semibold text-center text-3xl mb-5">Log In</h2>
-          <Form className={styles.login} onFinish={handleSubmit(onSubmit)}>
+          <Form onFinish={handleSubmit(onSubmit)}>
             {/* Email Verification */}
             <Controller
               name="email"
@@ -80,7 +80,7 @@ export default function Login() {
                 </Form.Item>
               )}
             />
-
+            <p>New User?<Link href="/signup" className="underline">SignUp</Link></p>
             <Form.Item className=" flex items-center justify-center">
               <Button
                 htmlType="submit"

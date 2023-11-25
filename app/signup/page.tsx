@@ -1,5 +1,6 @@
 "use client";
 import { Button, Form, Input } from "antd";
+import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -106,6 +107,7 @@ export default function SignUp() {
                 </Form.Item>
               )}
             />
+              <p>Already Have An Account?<Link href="/login" className="underline">Login</Link></p>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button

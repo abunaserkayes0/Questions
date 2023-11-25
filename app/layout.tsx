@@ -1,8 +1,8 @@
 "use client";
+import Navbar from "@/Components/NavBar/Navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { createContext } from "react";
-import Navbar from "./Components/NavBar/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const AuthContext = createContext({});
