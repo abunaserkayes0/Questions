@@ -1,9 +1,12 @@
 "use client";
+import { Button } from "antd";
 import questions from "../../data/db";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const pathname = usePathname();
+  const router = useRouter();
   const id = parseInt(pathname.slice(1, 2));
   const singleQuestion = questions.find((question) => question.id == id);
 
@@ -57,12 +60,14 @@ export default function page() {
             </label>
             <span>{singleQuestion?.question_4}</span>
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+          <Button
+           onClick={() => router.push(`/update/${id}`)}
+            htmlType="submit"
+            className="bg-black text-white hover:bg-white hover:text-black w-full mb-5"
+            size="large"
           >
             Edit
-          </button>
+          </Button>
         </div>
       </div>
     </>

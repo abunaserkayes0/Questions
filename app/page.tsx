@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import questions from "../data/db";
 import { useRouter } from "next/navigation";
+import { Button } from "antd";
 
 export default function Questions() {
   const [items, setItems] = useState(questions);
@@ -56,13 +57,15 @@ export default function Questions() {
                 </label>
                 <span>{item.question_4}</span>
               </div>
-              <button
+              <Button
+                className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
                 onClick={() => router.push(`/${item.id}`)}
-                type="submit"
-                className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+                htmlType="submit"
+                size="large"
+                
               >
                 Edit
-              </button>
+              </Button>
             </div>
           </div>
         );
