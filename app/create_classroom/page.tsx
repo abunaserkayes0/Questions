@@ -1,92 +1,119 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import { Button, Card, Form, Input } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { Controller, useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 export default function CreateClassroom() {
-  const [divCount, setDivCount] = useState(1);
-
-  const createNewDiv = () => {
-    setDivCount(divCount + 1);
-  };
-  const dynamicDiv = Array.from({ length: divCount }, (_, index) => (
-    <div key={index} className="created-div">
-      <div className="mb-4">
-        <input
-          type="number"
-          id="student_id"
-          name="student"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          required
-        />
-      </div>
-    </div>
-  ));
-  const handelClassroom = (e: any) => {
-    e.preventDefault();
-    const from = e.target;
-    const students_id = from.student;
-    // const student = [];
-    /* for (const student_id of students_id) {
-      const student_value = student_id.value;
-      student.push(student_value);
-    }
-    console.log(student); */
-
-    console.log(students_id[students_id.value]);
+  const [form] = Form.useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    console.log(data);
   };
   return (
     <>
-      <div className="bg-gray-100 h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
-          <form onSubmit={handelClassroom}>
-            <div className="mb-4">
-              <label
-                htmlFor="classroom_name"
-                className="block text-gray-600 text-sm font-medium mb-2"
-              >
-                Classroom Name
-              </label>
-              <input
-                type="text"
-                id="classroom_name"
-                name="classroom_name"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                required
+      <Form
+        form={form}
+        name="dynamic_form_complex"
+        autoComplete="off"
+        onFinish={handleSubmit(onSubmit)}
+        initialValues={{ items: [{}] }}
+        className="my-10 mx-auto w-1/4"
+      >
+        <Controller
+          name="classroom"
+          control={control}
+          rules={{ required: "Classroom is required" }}
+          render={({ field }) => (
+            <Form.Item>
+              <Input {...field} placeholder="Classroom" />
+              <ErrorMessage
+                errors={errors}
+                name="classroom"
+                render={({ message }) => (
+                  <p className="text-red-400">{message}</p>
+                )}
               />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="teacher_id"
-                className="block text-gray-600 text-sm font-medium mb-2"
-              >
-                Teacher_id
-              </label>
-              <input
-                type="number"
-                id="teacher_id"
-                name="teacher_id"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                required
+            </Form.Item>
+          )}
+        />
+        <Controller
+          name="teacher_id"
+          control={control}
+          rules={{ required: "Teacher is required" }}
+          render={({ field }) => (
+            <Form.Item>
+              <Input {...field} placeholder="Teacher id" />
+              <ErrorMessage
+                errors={errors}
+                name="classroom"
+                render={({ message }) => (
+                  <p className="text-red-400">{message}</p>
+                )}
               />
+            </Form.Item>
+          )}
+        />
+        <h2 className="text-center font-bold mb-3">Student Id</h2>
+        <Form.List name="items">
+          {(fields, { add, remove }) => (
+            <div>
+              {fields.map((field, index) => (
+                <Card
+                  size="small"
+                  title={`Question ${field.name + 1}`}
+                  key={field.key}
+                  extra={
+                    <CloseOutlined
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                    />
+                  }
+                >
+                  <Controller
+                    name={`name-${index + 1}`}
+                    control={control}
+                    rules={{ required: "name required" }}
+                    render={({ field }) => (
+                      <Form.Item
+                        className="mb-3"
+                        rules={[
+                          { required: true, message: "Missing first name" },
+                        ]}
+                      >
+                        <Input placeholder="First Name" {...field} />
+                      </Form.Item>
+                    )}
+                  />
+                </Card>
+              ))}
+              <Button
+                className="bg-black text-white hover:bg-white hover:text-black mb-3"
+                size="large"
+                onClick={() => add()}
+                block
+              >
+                + Add Item
+              </Button>
             </div>
-            <h3 className="text-center font-semibold mb-3">Student Id</h3>
-            {dynamicDiv}
-            <button
-              onClick={createNewDiv}
-              type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mb-5"
-            >
-              Add More Student
-            </button>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mb-5"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
+          )}
+        </Form.List>
+        <Form.Item>
+          <Button
+            className="bg-black text-white hover:bg-white hover:text-black mb-3 my-0 mx-auto block"
+            htmlType="submit"
+            size="large"
+          >
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
     </>
   );
 }

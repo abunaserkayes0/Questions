@@ -37,10 +37,10 @@ export default function page() {
                 flexDirection: "column",
               }}
             >
-              {fields.map((field) => (
+              {fields.map((field, index) => (
                 <Card
                   size="small"
-                  title={`Question-${field.name + 1}`}
+                  title={`Question-${index + 1}`}
                   key={field.key}
                   extra={
                     <CloseOutlined
@@ -51,7 +51,7 @@ export default function page() {
                   }
                 >
                   <Controller
-                    name={`question_title-${field.name + 1}`}
+                    name={`question_title-${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -67,7 +67,7 @@ export default function page() {
                     )}
                   />
                   <Controller
-                    name={`question_${field.name + 1}`}
+                    name={`question_first_${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -83,7 +83,7 @@ export default function page() {
                     )}
                   />
                   <Controller
-                    name={`question_${field.name + 2}`}
+                    name={`question_second_${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -100,7 +100,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name="question_3"
+                    name={`question_third_${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -117,7 +117,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name="question_4"
+                    name={`question_fourth_${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -134,7 +134,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name="correct_answer"
+                    name={`correct_answer_${index + 1}`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -169,13 +169,6 @@ export default function page() {
           >
             Submit
           </Button>
-        </Form.Item>
-        <Form.Item noStyle shouldUpdate>
-          {() => (
-            <Typography>
-              <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-            </Typography>
-          )}
         </Form.Item>
       </Form>
     </>
