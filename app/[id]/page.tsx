@@ -1,14 +1,28 @@
 "use client";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import questions from "../../data/db";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import UpdatePage from "@/Components/UpdatePage/UpdatePage";
 
 export default function page() {
   const pathname = usePathname();
-  const router = useRouter();
   const id = parseInt(pathname.slice(1, 2));
   const singleQuestion = questions.find((question) => question.id == id);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -61,13 +75,22 @@ export default function page() {
             <span>{singleQuestion?.question_4}</span>
           </div>
           <Button
-           onClick={() => router.push(`/update/${id}`)}
+            onClick={showModal}
             htmlType="submit"
             className="bg-black text-white hover:bg-white hover:text-black w-full mb-5"
             size="large"
           >
             Edit
           </Button>
+          <Modal
+            okType="default"
+            title="Update Question"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <UpdatePage />
+          </Modal>
         </div>
       </div>
     </>

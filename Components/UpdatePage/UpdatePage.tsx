@@ -1,17 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, Input } from "antd";
-import questions from "../../../data/db";
+import questions from "../../data/db";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { usePathname } from "next/navigation";
 
 export default function UpdatePage() {
   const pathname = usePathname();
-  const id = parseInt(pathname.slice(8));
+  const id = parseInt(pathname.slice(1, 2));
 
   const singleQuestion = questions.find((question) => question.id == id);
-
   const [form] = Form.useForm();
 
   const [firstField, setFirstField] = useState(singleQuestion?.question_1);
@@ -43,6 +42,7 @@ export default function UpdatePage() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          marginBottom:"10px"
         }}
         autoComplete="off"
         initialValues={{ items: [{}] }}
