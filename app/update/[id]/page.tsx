@@ -1,44 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Form, Input } from "antd";
 import questions from "../../../data/db";
-import { Controller, set, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { usePathname } from "next/navigation";
 
 export default function UpdatePage() {
   const pathname = usePathname();
   const id = parseInt(pathname.slice(8));
+
   const singleQuestion = questions.find((question) => question.id == id);
+
   const [form] = Form.useForm();
 
   const [firstField, setFirstField] = useState(singleQuestion?.question_1);
-  /* const [secondField, setSecondField] = useState(singleQuestion?.question_2);
+  const [secondField, setSecondField] = useState(singleQuestion?.question_2);
   const [thirdField, setThirdField] = useState(singleQuestion?.question_3);
-  const [fourthField, setFouthField] = useState(singleQuestion?.question_4); */
-
-  /*  const handelFirstField=(e:any)=>
-  {
-    const inputField = ;
-    setFirstField(inputField)
-  } */
-  /* const handelSecondField=(e:any)=>
-  {
-    const inputField = e.target.value;
-    setFirstField(inputField)
-  }
-  const handelThirdField=(e:any)=>
-  {
-    const inputField = e.target.value;
-    setFirstField(inputField)
-  } */
+  const [fourthField, setFourthField] = useState(singleQuestion?.question_4);
 
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    data.question_first = firstField;
+    data.question_second = secondField;
+    data.question_third = thirdField;
+    data.question_fourth = fourthField;
+    console.log(data);
+  };
+
   return (
     <>
       <Form
@@ -91,7 +85,14 @@ export default function UpdatePage() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Second_question" />
+                        <Input
+                          {...field}
+                          value={secondField}
+                          onChange={(e) => {
+                            setSecondField(e.target.value);
+                          }}
+                          placeholder="Second_question"
+                        />
                         <ErrorMessage
                           errors={errors}
                           name="question_2"
@@ -108,7 +109,14 @@ export default function UpdatePage() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Third_question" />
+                        <Input
+                          {...field}
+                          value={thirdField}
+                          onChange={(e) => {
+                            setThirdField(e.target.value);
+                          }}
+                          placeholder="Third_question"
+                        />
                         <ErrorMessage
                           errors={errors}
                           name="question_3"
@@ -125,7 +133,14 @@ export default function UpdatePage() {
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Fourth_question" />
+                        <Input
+                          {...field}
+                          value={fourthField}
+                          onChange={(e) => {
+                            setFourthField(e.target.value);
+                          }}
+                          placeholder="Fourth_question"
+                        />
                         <ErrorMessage
                           errors={errors}
                           name="question_4"
