@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { Button, Card, Form, Input, Typography } from "antd";
+import { Button, Card, Form, Input } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import axios from "axios";
 
 export default function page() {
   const [form] = Form.useForm();
@@ -12,7 +13,27 @@ export default function page() {
     control,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    const userData = {
+      text: data.question_title,
+      options: [
+        data.question_first,
+        data.question_second,
+        data.question_third,
+        data.question_fourth,
+      ],
+      correctOption: data.correct_answer,
+    };
+    axios
+      .post("http://143.110.190.164:3000/teacher/question/create", userData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Form
@@ -51,7 +72,7 @@ export default function page() {
                   }
                 >
                   <Controller
-                    name={`question_title-${index + 1}`}
+                    name={`question_title`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -70,7 +91,7 @@ export default function page() {
                     )}
                   />
                   <Controller
-                    name={`question_first_${index + 1}`}
+                    name={`question_first`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -86,7 +107,7 @@ export default function page() {
                     )}
                   />
                   <Controller
-                    name={`question_second_${index + 1}`}
+                    name={`question_second`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -103,7 +124,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name={`question_third_${index + 1}`}
+                    name={`question_third`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -120,7 +141,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name={`question_fourth_${index + 1}`}
+                    name={`question_fourth`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -137,7 +158,7 @@ export default function page() {
                   />
 
                   <Controller
-                    name={`correct_answer_${index + 1}`}
+                    name={`correct_answer`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
@@ -155,13 +176,13 @@ export default function page() {
                 </Card>
               ))}
 
-              <Button
+              {/*  <Button
                 className="bg-black text-white hover:bg-white hover:text-black mb-5"
                 onClick={() => add()}
                 block
               >
                 + Add Item
-              </Button>
+              </Button> */}
             </div>
           )}
         </Form.List>
