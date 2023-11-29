@@ -56,7 +56,7 @@ export default function SingleQuestion({ question, index }: any) {
         </div>
         <Button
           className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          onClick={() => router.push(`/${question._id}`)}
+          onClick={() => router.push(`/question/${question._id}`)}
           htmlType="submit"
           size="large"
         >

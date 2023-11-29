@@ -1,35 +1,65 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, Input } from "antd";
-import questions from "../../data/db";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { usePathname } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import axios from "axios";
+import Spinner from "../Spinner/Spinner";
 
 export default function UpdatePage() {
-  const pathname = usePathname();
-  const id = parseInt(pathname.slice(1, 2));
-
-  const singleQuestion = questions.find((question) => question.id == id);
+  const { id } = useParams();
   const [form] = Form.useForm();
+  const router =useRouter();
+  const [singleQuestion, setSingleQuestion] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [firstField, setFirstField] = useState("");
+  const [secondField, setSecondField] = useState("");
+  const [thirdField, setThirdField] = useState("");
+  const [fourthField, setFourthField] = useState("");
 
-  const [firstField, setFirstField] = useState(singleQuestion?.question_1);
-  const [secondField, setSecondField] = useState(singleQuestion?.question_2);
-  const [thirdField, setThirdField] = useState(singleQuestion?.question_3);
-  const [fourthField, setFourthField] = useState(singleQuestion?.question_4);
+  if (isLoading) {
+    <Spinner />;
+  }
+  useEffect(() => {
+    axios
+      .get(`http://143.110.190.164:3000/teacher/question/find/${id}`)
+      .then((response) => {
+        const questionOptions = response.data.options;
+        setFirstField(questionOptions[0]);
+        setSecondField(questionOptions[1]);
+        setThirdField(questionOptions[2]);
+        setFourthField(questionOptions[3]);
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
 
   const {
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
   } = useForm();
   const onSubmit = (data: any) => {
-    data.question_first = firstField;
-    data.question_second = secondField;
-    data.question_third = thirdField;
-    data.question_fourth = fourthField;
-    console.log(data);
+    const userData = {
+      text: data.question_title,
+      options: [
+        (data.question_first = firstField),
+        (data.question_second = secondField),
+        (data.question_third = thirdField),
+        (data.question_fourth = fourthField),
+      ],
+      correctOption: data.correct_answer,
+    };
+    axios
+      .put(
+        `http://143.110.190.164:3000/teacher/question/update/${id}`,
+        userData
+      )
+      .then((response) => {
+        setSingleQuestion(response.data);
+        router.push('/');
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -42,7 +72,7 @@ export default function UpdatePage() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom:"10px"
+          marginBottom: "10px",
         }}
         autoComplete="off"
         initialValues={{ items: [{}] }}
