@@ -3,8 +3,7 @@ import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export default function SingleQuestion({ question, index }: any) {
-  //   console.log(question);
+export default function SingleQuestion({ question, index,handelDeleteQuestion }: any) {
   const router = useRouter();
 
   return (
@@ -61,6 +60,14 @@ export default function SingleQuestion({ question, index }: any) {
           size="large"
         >
           Edit
+        </Button>
+        <Button
+          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
+          onClick={() => handelDeleteQuestion(question._id)}
+          htmlType="submit"
+          size="large"
+        >
+          Delete
         </Button>
       </div>
     </div>

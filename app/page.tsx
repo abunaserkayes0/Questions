@@ -13,10 +13,27 @@ export default function Questions() {
       .then((response) => setQuestions(response.data))
       .catch((err) => console.log(err));
   }, []);
+  const handelDeleteQuestion = (id: any) => {
+    axios
+      .delete(`http://143.110.190.164:3000/teacher/question/delete/${id}`)
+      .then((response) => {
+        if (response.data.message === "Question deleted successfully") {
+          setQuestions(response.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       {questions.map((question, index) => {
-        return <SingleQuestion key={index}  question={question} index={index} />;
+        return (
+          <SingleQuestion
+            key={index}
+            question={question}
+            index={index}
+            handelDeleteQuestion={handelDeleteQuestion}
+          />
+        );
       })}
     </>
   );
