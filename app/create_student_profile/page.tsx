@@ -27,7 +27,7 @@ export default function CreateStudentProfile() {
     };
   
     axios
-      .post(`https://jsonplaceholder.typicode.com/posts`, userData)
+      .post(`https://jsonplaceholder.typicode.com/users`, userData)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };
