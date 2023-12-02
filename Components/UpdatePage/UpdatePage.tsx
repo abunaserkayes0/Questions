@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Form, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 
-export default function UpdatePage() {
-  const { id } = useParams();
+export default function UpdatePage({ id, handleCancel }: any) {
   const [form] = Form.useForm();
-  const router =useRouter();
   const [singleQuestion, setSingleQuestion] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
   const [firstField, setFirstField] = useState("");
   const [secondField, setSecondField] = useState("");
@@ -57,7 +55,7 @@ export default function UpdatePage() {
       )
       .then((response) => {
         setSingleQuestion(response.data);
-        router.push('/');
+        handleCancel();
       })
       .catch((err) => console.log(err));
   };

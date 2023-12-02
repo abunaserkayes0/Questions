@@ -1,11 +1,26 @@
 "use client";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import UpdatePage from "../UpdatePage/UpdatePage";
 
-export default function SingleQuestion({ question, index,handelDeleteQuestion }: any) {
+export default function SingleQuestion({
+  question,
+  index,
+  handelDeleteQuestion,
+}: any) {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    
+  };
   return (
     <div
       className="bg-gray-100 flex items-center justify-center"
@@ -55,12 +70,25 @@ export default function SingleQuestion({ question, index,handelDeleteQuestion }:
         </div>
         <Button
           className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          onClick={() => router.push(`/question/${question._id}`)}
+          onClick={showModal}
           htmlType="submit"
           size="large"
         >
           Edit
         </Button>
+        <Modal
+          okType="default"
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'none' } }}
+          title="Update Question"
+          open={isModalOpen}
+          onCancel={handleCancel}
+        >
+          <UpdatePage
+            id={question._id}
+            handleCancel={handleCancel}
+          />
+        </Modal>
         <Button
           className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
           onClick={() => handelDeleteQuestion(question._id)}
