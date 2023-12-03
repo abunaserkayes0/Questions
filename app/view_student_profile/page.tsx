@@ -1,23 +1,22 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Table } from "antd";
+import React, { useState } from "react";
 import SingleTableRow from "@/Components/SingleTableRow/SingleTableRow";
-const { Column, ColumnGroup } = Table;
+import { useRouter } from "next/navigation";
+import useFetchStudents from "@/hooks/useFetchStudents";
 
 export default function viewStudentProfile() {
-  const [students, setStudents] = useState([]);
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-  const fetchStudents = () => {
+  const router = useRouter();
+  const [student, setStudent] = useState({});
+  const { students } = useFetchStudents();
+  const handelClick = (id: any) => {
     axios
-      .get(`https://jsonplaceholder.typicode.com/users`)
-      .then((response) => {
-        setStudents(response.data);
-      })
+      .get(`https://jsonplaceholder.typicode.com/users/${id}`)
+      .then((response) => setStudent(response.data))
       .catch((error) => console.log(error));
+    router.push(`/single_student_view`);
   };
+
   return (
     <>
       <div className="bg-gray-100 p-8">
@@ -33,11 +32,15 @@ export default function viewStudentProfile() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  {students.map((student, index) => (
-                    <SingleTableRow key={index} student={student} />
-                  ))}
-                </tr>
+                {students.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="cursor-pointer"
+                    onClick={() => handelClick(student.id)}
+                  >
+                    <SingleTableRow student={student} />
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
