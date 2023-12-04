@@ -18,16 +18,16 @@ export default function CreateStudentProfile() {
       firstName: data.firstName,
       lastName: data.lastName,
       username: data.userName,
-      password:'',
+      password: "",
       email: data.userEmail,
-      picture: data.picture,
+      picture: "",
       dateOfBirth: data.dateOfBirth,
-      classrooms:[],
-      exams:[]
+      classrooms: [],
+      exams: [],
     };
-  
+
     axios
-      .post(`https://jsonplaceholder.typicode.com/users`, userData)
+      .post(`http://143.110.190.164:3000/student/profile/create`, userData)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };

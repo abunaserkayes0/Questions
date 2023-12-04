@@ -9,7 +9,7 @@ const useFetchStudents = () => {
   }, []);
   const fetchStudents = () => {
     axios
-      .get(`https://jsonplaceholder.typicode.com/users`)
+      .get(`http://143.110.190.164:3000/student/profile/find/all`)
       .then((response) => {
         setStudents(response.data);
       })
