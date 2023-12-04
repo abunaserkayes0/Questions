@@ -15,7 +15,7 @@ const useFetchStudents = () => {
       })
       .catch((error) => console.log(error));
   };
-  return { students };
+  return { students, setStudents };
 };
 
 export default useFetchStudents;

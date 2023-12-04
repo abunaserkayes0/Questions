@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { Layout, Avatar, Space, Modal } from "antd";
 import UpdateStudentDashBoard from "../UpdateStudentDashBoard/UpdateStudentDashBoard";
+import useFetchStudents from "@/hooks/useFetchStudents";
+import axios from "axios";
 const { Header, Content } = Layout;
 export default function StudentDashboard({ student }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { students, setStudents } = useFetchStudents();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -14,7 +17,17 @@ export default function StudentDashboard({ student }: any) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  const handelDeleted = (id: any) => {
+    axios
+      .delete(`http://143.110.190.164:3000/student/profile/delete/${id}`)
+      .then((response) => {
+        if (response.data) {
+          const student = students.filter((student: any) => student._id != id);
+          setStudents(student);
+        }
+      })
+      .then((error) => console.log(error));
+  };
   return (
     <>
       <div className="row-span-3 col-span-3">
@@ -37,13 +50,20 @@ export default function StudentDashboard({ student }: any) {
                         />
                       </Space>
                     </div>
-                    <div>
+                    <div className="flex gap-3">
                       <Avatar
                         onClick={showModal}
                         className="flex items-center justify-center"
                         shape="circle"
-                        size={20}
+                        size={35}
                         icon={<FaEdit />}
+                      />
+                      <Avatar
+                        onClick={() => handelDeleted(student._id)}
+                        className="flex items-center justify-center"
+                        shape="circle"
+                        size={35}
+                        icon={<MdDelete />}
                       />
                     </div>
                   </section>
@@ -64,7 +84,7 @@ export default function StudentDashboard({ student }: any) {
             open={isModalOpen}
             onCancel={handleCancel}
           >
-            <UpdateStudentDashBoard  id={student._id} />
+            <UpdateStudentDashBoard id={student._id} />
           </Modal>
         </>
       </div>

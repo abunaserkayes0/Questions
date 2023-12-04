@@ -20,7 +20,10 @@ export default function Questions() {
       .delete(`http://143.110.190.164:3000/teacher/question/delete/${id}`)
       .then((response) => {
         if (response.data.message === "Question deleted successfully") {
-          console.log(questions);
+          const restQuestions = questions.filter(
+            (question: any) => question._id != id
+          );
+          setQuestions(restQuestions);
         }
       })
       .catch((err) => console.log(err));
