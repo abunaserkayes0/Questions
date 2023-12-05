@@ -1,20 +1,20 @@
 "use client";
-import axios from "axios";
-import React, { useState } from "react";
 import SingleTableRow from "@/Components/SingleTableRow/SingleTableRow";
+import useFetchTeachers from "@/hooks/useFetchTeachers";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import useFetchStudents from "@/hooks/useFetchStudents";
+import React, { useState } from "react";
 
-export default function viewStudentProfile() {
+export default function ViewTeacherProfile() {
   const router = useRouter();
   const [student, setStudent] = useState({});
-  const { students } = useFetchStudents();
+  const { teachers, setTeachers } = useFetchTeachers();
   const handelClick = (id: any) => {
     axios
-      .get(`http://143.110.190.164:3000/student/profile/find/${id}`)
+      .get(`http://143.110.190.164:3000/teacher/profile/find/${id}`)
       .then((response) => setStudent(response.data))
       .catch((error) => console.log(error));
-    router.push(`/single_student_view`);
+    router.push(`/single_teacher_view`);
   };
 
   return (
@@ -32,17 +32,15 @@ export default function viewStudentProfile() {
                 </tr>
               </thead>
               <tbody>
-                {students.map((student: any) => (
+                {teachers.map((teacher: any) => (
                   <tr
-                    key={student._id}
+                    key={teacher._id}
                     className="cursor-pointer"
-                    onClick={() => handelClick(student._id)}
+                    onClick={() => handelClick(teacher._id)}
                   >
                     <SingleTableRow
-                      firstName={student.firstName}
-                      lastName={student.lastName}
-                      username={student.username}
-                      email={student.email}
+                      firstName={teacher.firstName}
+                      lastName={teacher.lastName}
                     />
                   </tr>
                 ))}
