@@ -55,7 +55,7 @@ export default function CreateStudentProfile() {
                 flexDirection: "column",
               }}
             >
-              <h2 className="text-4xl font-semibold">Student Profile</h2>
+              <h2 className="text-4xl font-semibold">Create Student Profile</h2>
               <Card>
                 <section className="flex gap-5 mb-5">
                   <Controller

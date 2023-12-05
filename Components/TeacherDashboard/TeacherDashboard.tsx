@@ -6,6 +6,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Layout, Avatar, Space, Modal } from "antd";
 import useFetchTeachers from "@/hooks/useFetchTeachers";
 import UpdateTeacherDashBoard from "../UpdateTeacherDashboard/UpdateTeacherDashBoard";
+import TeachersDashboardInput from "../TeachersDashboardInput/TeachersDashboardInput";
 const { Header, Content } = Layout;
 export default function TeacherDashboard({ teacher }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,7 @@ export default function TeacherDashboard({ teacher }: any) {
                     <h3>{teacher.userName}</h3>
                     <h3>{teacher.lastName}</h3>
                   </section>
+                  <TeachersDashboardInput />
                 </div>
               </Content>
             </Layout>
