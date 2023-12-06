@@ -1,20 +1,68 @@
 "use client";
-import React from "react";
-import { Button, Card, Form, Input } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Button, Card, Form, Input, Select, Tag, TreeSelect } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import useFetchTeachers from "@/hooks/useFetchTeachers";
+import useFetchStudents from "@/hooks/useFetchStudents";
+import axios from "axios";
 
 export default function CreateClassroom() {
+  const [value, setValue] = useState();
   const [form] = Form.useForm();
+  const { teachers } = useFetchTeachers();
+  const { students } = useFetchStudents();
+
+  const transformData = (teacher: any) =>
+    teachers.map((teacher: any) => ({
+      value: teacher.firstName,
+      title: teacher.firstName,
+    }));
+
+  const treeData = transformData(teachers);
+  const onChange = (newValue: any) => {
+    setValue(newValue);
+  };
+
+  const tagRender = (props: any) => {
+    const { label, closable, onClose } = props;
+    const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    return (
+      <Tag
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{ marginRight: 3 }}
+      >
+        {label}
+      </Tag>
+    );
+  };
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    
+    const userData = {
+      classroom: data.classroom,
+      teachers: value,
+      students: data.students,
+    };
+    
+    axios
+      .post(`https://jsonplaceholder.typicode.com/posts`, userData)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   };
+
   return (
     <>
       <Form
@@ -43,67 +91,50 @@ export default function CreateClassroom() {
           )}
         />
         <Controller
-          name="teacher_id"
+          name="teachers"
           control={control}
-          rules={{ required: "Teacher is required" }}
           render={({ field }) => (
             <Form.Item>
-              <Input {...field} placeholder="Teacher id" />
-              <ErrorMessage
-                errors={errors}
-                name="classroom"
-                render={({ message }) => (
-                  <p className="text-red-400">{message}</p>
-                )}
+              <TreeSelect
+                {...field}
+                showSearch
+                style={{
+                  width: "100%",
+                }}
+                value={value}
+                dropdownStyle={{
+                  maxHeight: 400,
+                  overflow: "auto",
+                }}
+                placeholder="Please select"
+                allowClear
+                treeDefaultExpandAll
+                onChange={onChange}
+                treeData={treeData}
               />
             </Form.Item>
           )}
         />
-        <h2 className="text-center font-bold mb-3">Student Id</h2>
-        <Form.List name="items">
-          {(fields, { add, remove }) => (
-            <div>
-              {fields.map((field, index) => (
-                <Card
-                  size="small"
-                  title={`Question ${field.name + 1}`}
-                  key={field.key}
-                  extra={
-                    <CloseOutlined
-                      onClick={() => {
-                        remove(field.name);
-                      }}
-                    />
-                  }
-                >
-                  <Controller
-                    name={`name-${index + 1}`}
-                    control={control}
-                    rules={{ required: "name required" }}
-                    render={({ field }) => (
-                      <Form.Item
-                        className="mb-3"
-                        rules={[
-                          { required: true, message: "Missing first name" },
-                        ]}
-                      >
-                        <Input placeholder="First Name" {...field} />
-                      </Form.Item>
-                    )}
-                  />
-                </Card>
-              ))}
-              <Button
-                className="bg-black text-white hover:bg-white hover:text-black mb-3"
-                size="large"
-                onClick={() => add()}
-                block
-              >
-                + Add Item
-              </Button>
-            </div>
+
+        <Controller
+          name="students"
+          control={control}
+          render={({ field }) => (
+            <Form.Item>
+              <Select
+                {...field}
+                mode="multiple"
+                tagRender={tagRender}
+                style={{ width: "100%" }}
+                options={students.map((option: any) => ({
+                  value: option.firstName,
+                  label: option.firstName.toString(),
+                }))}
+              />
+            </Form.Item>
           )}
-        </Form.List>
+        />
+
         <Form.Item>
           <Button
             className="bg-black text-white hover:bg-white hover:text-black mb-3 my-0 mx-auto block"

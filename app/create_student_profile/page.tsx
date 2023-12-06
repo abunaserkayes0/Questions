@@ -20,7 +20,7 @@ export default function CreateStudentProfile() {
       username: data.userName,
       password: "",
       email: data.userEmail,
-      picture: "",
+      picture: null,
       dateOfBirth: data.dateOfBirth,
       classrooms: [],
       exams: [],
