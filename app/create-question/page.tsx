@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
 import { Button, Card, Form, Input } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
-export default function CreateTeacherProfile() {
+
+export default function page() {
   const [form] = Form.useForm();
   const {
     handleSubmit,
@@ -12,24 +14,26 @@ export default function CreateTeacherProfile() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => {
-    console.log(data);
     const userData = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      username: data.userName,
-      password: "",
-      email: data.userEmail,
-      picture: "",
-      dateOfBirth: data.dateOfBirth,
-      classrooms: [],
-      exams: [],
+      text: data.question_title,
+      options: [
+        data.question_first,
+        data.question_second,
+        data.question_third,
+        data.question_fourth,
+      ],
+      correctOption: data.correct_answer,
     };
-
     axios
-      .post(`http://143.110.190.164:3000/teacher/profile/create`, userData)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      .post("http://143.110.190.164:3000/teacher/question/create", userData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
+
   return (
     <>
       <Form
@@ -54,22 +58,32 @@ export default function CreateTeacherProfile() {
                 flexDirection: "column",
               }}
             >
-              <h2 className="text-4xl font-semibold">Create Teacher Profile</h2>
-              <Card>
-                <section className="flex gap-5 mb-5">
+              {fields.map((field, index) => (
+                <Card
+                  className="shadow mt-5"
+                  size="small"
+                  title={`Create Question`}
+                  key={field.key}
+                  extra={
+                    <CloseOutlined
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                    />
+                  }
+                >
                   <Controller
-                    name={`firstName`}
+                    name={`question_title`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input
+                        <Input.TextArea
                           {...field}
-                          placeholder="first_name"
-                          className="text-xl"
+                          placeholder="Question-Title"
                         />
                         <ErrorMessage
                           errors={errors}
-                          name="first_name"
+                          name="question_title"
                           render={({ message }) => (
                             <p className="text-red-400">{message}</p>
                           )}
@@ -78,40 +92,14 @@ export default function CreateTeacherProfile() {
                     )}
                   />
                   <Controller
-                    name={`lastName`}
+                    name={`question_first`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input
-                          {...field}
-                          placeholder="last_name"
-                          className="text-xl"
-                        />
+                        <Input {...field} placeholder="First_question" />
                         <ErrorMessage
                           errors={errors}
-                          name="last_name"
-                          render={({ message }) => (
-                            <p className="text-red-400">{message}</p>
-                          )}
-                        />
-                      </Form.Item>
-                    )}
-                  />
-                </section>
-                <section className="flex mb-5 gap-5">
-                  <Controller
-                    name={`email`}
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Item>
-                        <Input
-                          {...field}
-                          placeholder="email"
-                          className="text-xl"
-                        />
-                        <ErrorMessage
-                          errors={errors}
-                          name="email"
+                          name="question_1"
                           render={({ message }) => (
                             <p className="text-red-400">{message}</p>
                           )}
@@ -120,18 +108,14 @@ export default function CreateTeacherProfile() {
                     )}
                   />
                   <Controller
-                    name={`picture`}
+                    name={`question_second`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input
-                          {...field}
-                          placeholder="picture"
-                          className="text-xl"
-                        />
+                        <Input {...field} placeholder="Second_question" />
                         <ErrorMessage
                           errors={errors}
-                          name="picture"
+                          name="question_2"
                           render={({ message }) => (
                             <p className="text-red-400">{message}</p>
                           )}
@@ -139,12 +123,71 @@ export default function CreateTeacherProfile() {
                       </Form.Item>
                     )}
                   />
-                </section>
-              </Card>
+
+                  <Controller
+                    name={`question_third`}
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Input {...field} placeholder="Third_question" />
+                        <ErrorMessage
+                          errors={errors}
+                          name="question_3"
+                          render={({ message }) => (
+                            <p className="text-red-400">{message}</p>
+                          )}
+                        />
+                      </Form.Item>
+                    )}
+                  />
+
+                  <Controller
+                    name={`question_fourth`}
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Input {...field} placeholder="Fourth_question" />
+                        <ErrorMessage
+                          errors={errors}
+                          name="question_4"
+                          render={({ message }) => (
+                            <p className="text-red-400">{message}</p>
+                          )}
+                        />
+                      </Form.Item>
+                    )}
+                  />
+
+                  <Controller
+                    name={`correct_answer`}
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Input {...field} placeholder="Correct_question" />
+                        <ErrorMessage
+                          errors={errors}
+                          name="correct_answer"
+                          render={({ message }) => (
+                            <p className="text-red-400">{message}</p>
+                          )}
+                        />
+                      </Form.Item>
+                    )}
+                  />
+                </Card>
+              ))}
+
+              {/*  <Button
+                className="bg-black text-white hover:bg-white hover:text-black mb-5"
+                onClick={() => add()}
+                block
+              >
+                + Add Item
+              </Button> */}
             </div>
           )}
         </Form.List>
-        <Form.Item>
+        <Form.Item className="my-5">
           <Button
             className="bg-black text-white hover:bg-white hover:text-black"
             htmlType="submit"

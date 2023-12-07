@@ -8,49 +8,49 @@ export default function Navbar() {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/create_question">Create Question</Link>,
+      label: <Link href="/create-question">Create Question</Link>,
     },
     {
       key: "2",
-      label: <Link href="/view_questions">View Question</Link>,
+      label: <Link href="/view-questions">View Question</Link>,
     },
   ];
   const classroom: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/create_classroom">Create ClassRoom</Link>,
+      label: <Link href="/create-classroom">Create ClassRoom</Link>,
     },
     {
       key: "2",
-      label: <Link href="/view_classroom">View ClassRoom</Link>,
+      label: <Link href="/view-classroom">View ClassRoom</Link>,
     },
   ];
   const Students: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/create_student_profile">Create Student Profile</Link>,
+      label: <Link href="/create-student-profile">Create Student Profile</Link>,
     },
     {
       key: "2",
-      label: <Link href="/view_student_profile">View Student Profile</Link>,
+      label: <Link href="/view-student-profile">View Student Profile</Link>,
     },
     {
       key: "3",
-      label: <Link href="/single_student_view">single Student View</Link>,
+      label: <Link href="/single-student-view">single Student View</Link>,
     },
   ];
   const Teachers: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/create_teacher_profile">Create Teacher Profile</Link>,
+      label: <Link href="/create-teacher-profile">Create Teacher Profile</Link>,
     },
     {
       key: "2",
-      label: <Link href="/view_teacher_profile">View Teacher Profile</Link>,
+      label: <Link href="/view-teacher-profile">View Teacher Profile</Link>,
     },
     {
       key: "3",
-      label: <Link href="/single_teacher_view">single Teacher View</Link>,
+      label: <Link href="/single-teacher-view">single Teacher View</Link>,
     },
   ];
   return (

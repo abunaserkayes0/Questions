@@ -13,14 +13,6 @@ export default function CreateClassroom() {
   const { teachers } = useFetchTeachers();
   const { students } = useFetchStudents();
 
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    undefined
-  );
-
-  const handleSelectChange = (selected: string[]) => {
-    setSelectedValue(selected[0]);
-  };
-
   const transformData = (teacher: any) =>
     teachers.map((teacher: any) => ({
       value: teacher.firstName,
@@ -94,7 +86,7 @@ export default function CreateClassroom() {
                   maxHeight: 400,
                   overflow: "auto",
                 }}
-                placeholder="Please select"
+                placeholder="Select teachers..."
                 allowClear
                 treeDefaultExpandAll
                 onChange={onChange}
@@ -103,7 +95,6 @@ export default function CreateClassroom() {
             </Form.Item>
           )}
         />
-
         <Controller
           name="students"
           control={control}
@@ -113,19 +104,16 @@ export default function CreateClassroom() {
                 {...field}
                 mode="multiple"
                 style={{ width: "100%" }}
-                options={students.map((option: any) => ({
+                placeholder="Select students..."
+                options={teachers.map((option: any) => ({
                   value: option.firstName,
                   label: option.firstName.toString(),
                 }))}
-                onChange={handleSelectChange}
               />
-              {selectedValue && (
-                <div style={{ marginTop: "10px" }}>{selectedValue}</div>
-              )}
             </Form.Item>
           )}
         />
-        <Form.Item>
+        <Form.Item className="my-5">
           <Button
             className="bg-black text-white hover:bg-white hover:text-black mb-3 my-0 mx-auto block"
             htmlType="submit"
