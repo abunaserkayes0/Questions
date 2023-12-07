@@ -8,11 +8,11 @@ export default function Navbar() {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/create">Create Question</Link>,
+      label: <Link href="/create_question">Create Question</Link>,
     },
     {
       key: "2",
-      label: <Link href="/">View Question</Link>,
+      label: <Link href="/view_questions">View Question</Link>,
     },
   ];
   const classroom: MenuProps["items"] = [
