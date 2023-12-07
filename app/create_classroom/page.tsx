@@ -13,6 +13,14 @@ export default function CreateClassroom() {
   const { teachers } = useFetchTeachers();
   const { students } = useFetchStudents();
 
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    undefined
+  );
+
+  const handleSelectChange = (selected: string[]) => {
+    setSelectedValue(selected[0]);
+  };
+
   const transformData = (teacher: any) =>
     teachers.map((teacher: any) => ({
       value: teacher.firstName,
@@ -24,25 +32,6 @@ export default function CreateClassroom() {
     setValue(newValue);
   };
 
-  const tagRender = (props: any) => {
-    const { label, closable, onClose } = props;
-    const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
-    };
-
-    return (
-      <Tag
-        onMouseDown={onPreventMouseDown}
-        closable={closable}
-        onClose={onClose}
-        style={{ marginRight: 3 }}
-      >
-        {label}
-      </Tag>
-    );
-  };
-
   const {
     handleSubmit,
     control,
@@ -50,13 +39,12 @@ export default function CreateClassroom() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    
     const userData = {
       classroom: data.classroom,
       teachers: value,
       students: data.students,
     };
-    
+
     axios
       .post(`https://jsonplaceholder.typicode.com/posts`, userData)
       .then((response) => console.log(response))
@@ -124,17 +112,19 @@ export default function CreateClassroom() {
               <Select
                 {...field}
                 mode="multiple"
-                tagRender={tagRender}
                 style={{ width: "100%" }}
                 options={students.map((option: any) => ({
                   value: option.firstName,
                   label: option.firstName.toString(),
                 }))}
+                onChange={handleSelectChange}
               />
+              {selectedValue && (
+                <div style={{ marginTop: "10px" }}>{selectedValue}</div>
+              )}
             </Form.Item>
           )}
         />
-
         <Form.Item>
           <Button
             className="bg-black text-white hover:bg-white hover:text-black mb-3 my-0 mx-auto block"
