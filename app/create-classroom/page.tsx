@@ -14,7 +14,7 @@ export default function CreateClassroom() {
   const { students } = useFetchStudents();
 
   const transformData = (teacher: any) =>
-    teachers.map((teacher: any) => ({
+    students.map((teacher: any) => ({
       value: teacher.firstName,
       title: teacher.firstName,
     }));
@@ -31,6 +31,8 @@ export default function CreateClassroom() {
   } = useForm();
 
   const onSubmit = (data: any) => {
+    console.log(data);
+    
     const userData = {
       classroom: data.classroom,
       teachers: value,
@@ -38,7 +40,7 @@ export default function CreateClassroom() {
     };
 
     axios
-      .post(`https://jsonplaceholder.typicode.com/posts`, userData)
+      .post(`http://143.110.190.164:3000/teacher/classroom/create`, userData)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };

@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import React from "react";
 
-export default function ViewClassroom({ question, index }: any) {
+export default function ViewExam({ question, index }: any) {
   return (
     <div
       className="bg-gray-100 flex items-center justify-center"

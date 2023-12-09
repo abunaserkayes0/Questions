@@ -3,17 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import SingleQuestion from "@/Components/SingleQuestion/SingleQuestion";
+import useFetchQuestion from "@/hooks/useFetchQuestion";
 
 export default function ViewQuestions() {
-  const [questions, setQuestions] = useState([]);
-
+  const { questions, setQuestions } = useFetchQuestion();
   const router = useRouter();
-  useEffect(() => {
-    axios
-      .get("http://143.110.190.164:3000/teacher/question/find/all")
-      .then((response) => setQuestions(response.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   const handelDeleteQuestion = (id: any) => {
     axios

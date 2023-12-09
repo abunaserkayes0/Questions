@@ -5,7 +5,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { IoCreateOutline } from "react-icons/io5";
 import Link from "next/link";
 export default function Navbar() {
-  const items: MenuProps["items"] = [
+  const Questions: MenuProps["items"] = [
     {
       key: "1",
       label: <Link href="/create-question">Create Question</Link>,
@@ -53,6 +53,16 @@ export default function Navbar() {
       label: <Link href="/single-teacher-view">single Teacher View</Link>,
     },
   ];
+  const Exams: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <Link href="/create-exam">Create Exam</Link>,
+    },
+    {
+      key: "2",
+      label: <Link href="/view-exam">View Exams</Link>,
+    },
+  ];
   return (
     <>
       <Menu theme="light" mode="horizontal" defaultSelectedKeys={["1"]}>
@@ -60,7 +70,7 @@ export default function Navbar() {
           <Link href="/">Home</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<SiGoogleclassroom />}>
-          <Dropdown menu={{ items }}>
+          <Dropdown menu={{ items: Questions }}>
             <a onClick={(e) => e.preventDefault()}>
               <Space>
                 Questions
@@ -99,7 +109,17 @@ export default function Navbar() {
             </a>
           </Dropdown>
         </Menu.Item>
-        <Menu.Item key="6" icon={<UserOutlined />}>
+        <Menu.Item key="6" icon={<IoCreateOutline />}>
+          <Dropdown menu={{ items: Exams }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Exams
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Menu.Item>
+        <Menu.Item key="7" icon={<UserOutlined />}>
           <Link href="/login">Login</Link>
         </Menu.Item>
       </Menu>
