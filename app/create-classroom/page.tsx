@@ -105,7 +105,7 @@ export default function CreateClassroom() {
                 mode="multiple"
                 style={{ width: "100%" }}
                 placeholder="Select students..."
-                options={teachers.map((option: any) => ({
+                options={students.map((option: any) => ({
                   value: option.firstName,
                   label: option.firstName.toString(),
                 }))}

@@ -14,7 +14,7 @@ export default function viewStudentProfile() {
       .get(`http://143.110.190.164:3000/student/profile/find/${id}`)
       .then((response) => setStudent(response.data))
       .catch((error) => console.log(error));
-    router.push(`/single_student_view`);
+    router.push(`/single-student-view`);
   };
 
   return (
