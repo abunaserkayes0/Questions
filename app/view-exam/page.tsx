@@ -45,7 +45,14 @@ export default function ViewExam({ question, index }: any) {
           htmlType="submit"
           size="large"
         >
-          Button
+          Edit
+        </Button>
+        <Button
+          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
+          htmlType="submit"
+          size="large"
+        >
+          Delete
         </Button>
       </div>
     </div>

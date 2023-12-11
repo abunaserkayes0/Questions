@@ -3,8 +3,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import useFetchStudents from "@/hooks/useFetchStudents";
 import StudentDashboard from "@/Components/StudentDashboard/StudentDashboard";
+import { useParams } from "next/navigation";
 
 export default function SingleStudentView() {
+  const id = useParams();
+  console.log(id);
+  
   const [student, setStudent] = useState({});
   const { students } = useFetchStudents();
   const [isLoading, setIsLoading] = useState(true);

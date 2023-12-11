@@ -9,9 +9,10 @@ export default function SingleQuestion({
   index,
   handelDeleteQuestion,
 }: any) {
+  console.log(question);
+
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -19,7 +20,6 @@ export default function SingleQuestion({
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    
   };
   return (
     <div
@@ -28,6 +28,10 @@ export default function SingleQuestion({
     >
       <div className="bg-white p-8 rounded shadow-md w-full my-5 sm:w-96">
         <h2 className="text-2xl font-bold mb-4">Question-{index + 1}</h2>
+
+        <div className="mb-4 flex font-semibold">
+          <span>{question.text}</span>
+        </div>
 
         <div className="mb-4 flex justify-between">
           <label
@@ -78,16 +82,13 @@ export default function SingleQuestion({
         </Button>
         <Modal
           okType="default"
-          cancelButtonProps={{ style: { display: 'none' } }}
-          okButtonProps={{ style: { display: 'none' } }}
+          cancelButtonProps={{ style: { display: "none" } }}
+          okButtonProps={{ style: { display: "none" } }}
           title="Update Question"
           open={isModalOpen}
           onCancel={handleCancel}
         >
-          <UpdatePage
-            id={question._id}
-            handleCancel={handleCancel}
-          />
+          <UpdatePage id={question._id} handleCancel={handleCancel} />
         </Modal>
         <Button
           className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"

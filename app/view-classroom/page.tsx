@@ -8,7 +8,7 @@ export default function ViewClassroom({ question, index }: any) {
       key={question?._id}
     >
       <div className="bg-white p-8 rounded shadow-md w-full my-5 sm:w-96">
-        <h2 className="text-2xl font-bold mb-4">Create Exam</h2>
+        <h2 className="text-2xl font-bold mb-4">Create ClassRoom</h2>
 
         <div className="mb-4 flex justify-between">
           <label
@@ -45,7 +45,14 @@ export default function ViewClassroom({ question, index }: any) {
           htmlType="submit"
           size="large"
         >
-          Button
+          Edit
+        </Button>
+        <Button
+          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
+          htmlType="submit"
+          size="large"
+        >
+          Delete
         </Button>
       </div>
     </div>

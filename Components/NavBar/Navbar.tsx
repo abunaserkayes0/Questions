@@ -24,6 +24,14 @@ export default function Navbar() {
       key: "2",
       label: <Link href="/view-classroom">View ClassRoom</Link>,
     },
+    {
+      key: "3",
+      label: <Link href="/add-student-classroom">Add Student ClassRoom</Link>,
+    },
+    {
+      key: "4",
+      label: <Link href="/all-students-classroom">All Student ClassRoom</Link>,
+    },
   ];
   const Students: MenuProps["items"] = [
     {
@@ -61,6 +69,16 @@ export default function Navbar() {
     {
       key: "2",
       label: <Link href="/view-exam">View Exams</Link>,
+    },
+  ];
+  const SubmitExam: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <Link href="/submit-exam">Create Exam</Link>,
+    },
+    {
+      key: "2",
+      label: <Link href="/student-submission-exam">View Exams</Link>,
     },
   ];
   return (
@@ -119,7 +137,17 @@ export default function Navbar() {
             </a>
           </Dropdown>
         </Menu.Item>
-        <Menu.Item key="7" icon={<UserOutlined />}>
+        <Menu.Item key="7" icon={<IoCreateOutline />}>
+          <Dropdown menu={{ items: SubmitExam }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                SubmitExam
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Menu.Item>
+        <Menu.Item key="8" icon={<UserOutlined />}>
           <Link href="/login">Login</Link>
         </Menu.Item>
       </Menu>
