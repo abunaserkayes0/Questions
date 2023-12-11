@@ -1,59 +1,26 @@
-import { Button } from "antd";
+"use client";
+import SingleViewExam from "@/Components/SingleViewExam/SingleViewExam";
+import useFetchQuestion from "@/hooks/useFetchQuestion";
 import React from "react";
 
-export default function ViewExam({ question, index }: any) {
+export default function ViewExam() {
+  const { questions } = useFetchQuestion();
   return (
-    <div
-      className="bg-gray-100 flex items-center justify-center"
-      key={question?._id}
-    >
+    <div className="bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded shadow-md w-full my-5 sm:w-96">
-        <h2 className="text-2xl font-bold mb-4">Create Exam</h2>
+        <h2 className="text-2xl font-bold mb-4">Exam name</h2>
 
         <div className="mb-4 flex justify-between">
           <label
             htmlFor="username"
             className="block text-gray-600 text-sm font-medium mb-2"
           >
-            ClassRoom
+            classRoom name
           </label>
-          <span>{question?.options[0]}</span>
         </div>
-
-        <div className="mb-4 flex justify-between">
-          <label
-            htmlFor="username"
-            className="block text-gray-600 text-sm font-medium mb-2"
-          >
-            Course Teacher
-          </label>
-          <span>{question?.options[1]}</span>
-        </div>
-
-        <div className="mb-4 flex justify-between">
-          <label
-            htmlFor="username"
-            className="block text-gray-600 text-sm font-medium mb-2"
-          >
-            Selected Students
-          </label>
-          <span>{question?.options[2]}</span>
-        </div>
-
-        <Button
-          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          htmlType="submit"
-          size="large"
-        >
-          Edit
-        </Button>
-        <Button
-          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          htmlType="submit"
-          size="large"
-        >
-          Delete
-        </Button>
+        {questions.map((question: any) => (
+          <SingleViewExam question={question} />
+        ))}
       </div>
     </div>
   );

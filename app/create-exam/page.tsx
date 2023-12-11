@@ -53,15 +53,15 @@ export default function CreateExam() {
       className="my-10 mx-auto w-1/4"
     >
       <Controller
-        name="classroom"
+        name="exam"
         control={control}
         rules={{ required: "Classroom is required" }}
         render={({ field }) => (
           <Form.Item>
-            <Input {...field} placeholder="Classroom" />
+            <Input {...field} placeholder="Exam Name" />
             <ErrorMessage
               errors={errors}
-              name="classroom"
+              name="exam"
               render={({ message }) => (
                 <p className="text-red-400">{message}</p>
               )}
@@ -70,7 +70,7 @@ export default function CreateExam() {
         )}
       />
       <Controller
-        name="teachers"
+        name="classroom"
         control={control}
         render={({ field }) => (
           <Form.Item>
@@ -85,7 +85,7 @@ export default function CreateExam() {
                 maxHeight: 400,
                 overflow: "auto",
               }}
-              placeholder="Select teachers..."
+              placeholder="Select ClassRoom..."
               allowClear
               treeDefaultExpandAll
               onChange={onChange}
@@ -95,7 +95,7 @@ export default function CreateExam() {
         )}
       />
       <Controller
-        name="students"
+        name="multipleQuestion"
         control={control}
         render={({ field }) => (
           <Form.Item>
@@ -103,7 +103,7 @@ export default function CreateExam() {
               {...field}
               mode="multiple"
               style={{ width: "100%" }}
-              placeholder="Select students..."
+              placeholder="Select Question..."
               options={questions.map((option: any) => ({
                 value: option.text,
                 label: option.text.toString(),

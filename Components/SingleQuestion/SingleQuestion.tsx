@@ -9,8 +9,6 @@ export default function SingleQuestion({
   index,
   handelDeleteQuestion,
 }: any) {
-  console.log(question);
-
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -71,6 +69,15 @@ export default function SingleQuestion({
             Option-4
           </label>
           <span>{question.options[3]}</span>
+        </div>
+        <div className="mb-4 flex justify-between">
+          <label
+            htmlFor="username"
+            className="block text-gray-600 text-sm font-medium mb-2"
+          >
+            CorrectOption
+          </label>
+          <small>{question.correctOption}</small>
         </div>
         <Button
           className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
