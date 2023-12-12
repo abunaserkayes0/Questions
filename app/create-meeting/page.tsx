@@ -1,12 +1,28 @@
 "use client";
-import React from "react";
-import { Button, Card, Form, Input } from "antd";
+import React, { useState } from "react";
+import { Button, Card, Form, Input, Select, TreeSelect } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
+import useFetchTeachers from "@/hooks/useFetchTeachers";
+import useFetchStudents from "@/hooks/useFetchStudents";
+export default function CreateMeeting() {
+  const { teachers } = useFetchTeachers();
+  const { students } = useFetchStudents();
+  const [value, setValue] = useState();
 
-export default function page() {
+  const transformData = (teacher: any) =>
+    students.map((teacher: any) => ({
+      value: teacher.firstName,
+      title: teacher.firstName,
+    }));
+
+  const treeData = transformData(teachers);
+  const onChange = (newValue: any) => {
+    setValue(newValue);
+  };
+
   const [form] = Form.useForm();
   const {
     handleSubmit,
@@ -62,7 +78,7 @@ export default function page() {
                 <Card
                   className="shadow mt-5"
                   size="small"
-                  title={`Create Question`}
+                  title={`Create Meeting`}
                   key={field.key}
                   extra={
                     <CloseOutlined
@@ -73,17 +89,14 @@ export default function page() {
                   }
                 >
                   <Controller
-                    name={`question_title`}
+                    name={`title`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input.TextArea
-                          {...field}
-                          placeholder="Question-Title"
-                        />
+                        <Input {...field} placeholder="Enter Title" />
                         <ErrorMessage
                           errors={errors}
-                          name="question_title"
+                          name="title"
                           render={({ message }) => (
                             <p className="text-red-400">{message}</p>
                           )}
@@ -92,27 +105,11 @@ export default function page() {
                     )}
                   />
                   <Controller
-                    name={`question_first`}
+                    name={`url`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="First_question" />
-                        <ErrorMessage
-                          errors={errors}
-                          name="question_1"
-                          render={({ message }) => (
-                            <p className="text-red-400">{message}</p>
-                          )}
-                        />
-                      </Form.Item>
-                    )}
-                  />
-                  <Controller
-                    name={`question_second`}
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Item>
-                        <Input {...field} placeholder="Second_question" />
+                        <Input {...field} placeholder="Enter URL" />
                         <ErrorMessage
                           errors={errors}
                           name="question_2"
@@ -123,50 +120,58 @@ export default function page() {
                       </Form.Item>
                     )}
                   />
-
                   <Controller
-                    name={`question_third`}
+                    name="teachers"
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Third_question" />
-                        <ErrorMessage
-                          errors={errors}
-                          name="question_3"
-                          render={({ message }) => (
-                            <p className="text-red-400">{message}</p>
-                          )}
+                        <TreeSelect
+                          {...field}
+                          showSearch
+                          style={{
+                            width: "100%",
+                          }}
+                          value={value}
+                          dropdownStyle={{
+                            maxHeight: 400,
+                            overflow: "auto",
+                          }}
+                          placeholder="Select teachers..."
+                          allowClear
+                          treeDefaultExpandAll
+                          onChange={onChange}
+                          treeData={treeData}
                         />
                       </Form.Item>
                     )}
                   />
-
                   <Controller
-                    name={`question_fourth`}
+                    name="students"
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Fourth_question" />
-                        <ErrorMessage
-                          errors={errors}
-                          name="question_4"
-                          render={({ message }) => (
-                            <p className="text-red-400">{message}</p>
-                          )}
+                        <Select
+                          {...field}
+                          mode="multiple"
+                          style={{ width: "100%" }}
+                          placeholder="Select students..."
+                          options={students.map((option: any) => ({
+                            value: option.firstName,
+                            label: option.firstName.toString(),
+                          }))}
                         />
                       </Form.Item>
                     )}
                   />
-
                   <Controller
-                    name={`correct_answer`}
+                    name={`meetingTime`}
                     control={control}
                     render={({ field }) => (
                       <Form.Item>
-                        <Input {...field} placeholder="Correct_question" />
+                        <Input {...field} placeholder="Enter Meeting Time" />
                         <ErrorMessage
                           errors={errors}
-                          name="correct_answer"
+                          name="meetingTime"
                           render={({ message }) => (
                             <p className="text-red-400">{message}</p>
                           )}

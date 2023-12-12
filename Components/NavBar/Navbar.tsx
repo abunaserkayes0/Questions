@@ -81,6 +81,16 @@ export default function Navbar() {
       label: <Link href="/student-submission-exam">View Exams</Link>,
     },
   ];
+  const Meeting: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <Link href="/create-meeting">Create Meeting</Link>,
+    },
+    {
+      key: "2",
+      label: <Link href="/view-meeting">View Meeting</Link>,
+    },
+  ];
   return (
     <>
       <Menu theme="light" mode="horizontal" defaultSelectedKeys={["1"]}>
@@ -138,6 +148,16 @@ export default function Navbar() {
           </Dropdown>
         </Menu.Item>
         <Menu.Item key="7" icon={<IoCreateOutline />}>
+          <Dropdown menu={{ items: Meeting }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Meeting
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Menu.Item>
+        <Menu.Item key="8" icon={<IoCreateOutline />}>
           <Dropdown menu={{ items: SubmitExam }}>
             <a onClick={(e) => e.preventDefault()}>
               <Space>
@@ -147,7 +167,7 @@ export default function Navbar() {
             </a>
           </Dropdown>
         </Menu.Item>
-        <Menu.Item key="8" icon={<UserOutlined />}>
+        <Menu.Item key="9" icon={<UserOutlined />}>
           <Link href="/login">Login</Link>
         </Menu.Item>
       </Menu>

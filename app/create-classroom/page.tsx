@@ -1,27 +1,77 @@
 "use client";
-import React, { useState } from "react";
-import { Button, Card, Form, Input, Select, Tag, TreeSelect } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, Select, TreeSelect } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import useFetchTeachers from "@/hooks/useFetchTeachers";
 import useFetchStudents from "@/hooks/useFetchStudents";
 import axios from "axios";
-
 export default function CreateClassroom() {
   const [value, setValue] = useState();
+  const [teacherInfo, setTeacherInfo] = useState({});
+  const [studentInfo, setStudentInfo] = useState<any[]>([]);
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [form] = Form.useForm();
   const { teachers } = useFetchTeachers();
   const { students } = useFetchStudents();
 
   const transformData = (teacher: any) =>
-    students.map((teacher: any) => ({
-      value: teacher.firstName,
+    teachers.map((teacher: any) => ({
+      value: teacher._id,
       title: teacher.firstName,
     }));
 
   const treeData = transformData(teachers);
   const onChange = (newValue: any) => {
     setValue(newValue);
+  };
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    loadTeacherDetails(value);
+  }, [value]);
+
+  const loadTeacherDetails = (id: any) => {
+    if (id === undefined) {
+      setIsLoading(false);
+      return;
+    }
+    axios
+      .get(`http://143.110.190.164:3000/teacher/profile/find/${id}`)
+      .then((response) => {
+        setTeacherInfo(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const handleSelectChange = (selectedValues: any) => {
+    setSelectedStudents(selectedValues);
+  };
+  useEffect(() => {
+    setIsLoading(true);
+    if (selectedStudents.length > 0) {
+      loadStudentDetails(selectedStudents);
+    }
+  }, [selectedStudents]);
+  const loadStudentDetails = (selectedStudents: any) => {
+    selectedStudents.forEach((id: any) => {
+      axios
+        .get(`http://143.110.190.164:3000/student/profile/find/${id}`)
+        .then((response) => {
+          setStudentInfo([...studentInfo, response.data]);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    });
   };
 
   const {
@@ -31,20 +81,18 @@ export default function CreateClassroom() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    
     const userData = {
-      classroom: data.classroom,
-      teachers: value,
-      students: data.students,
+      name: data.classroom,
+      teacher: { teacherInfo },
+      students: studentInfo,
     };
+    console.log(userData);
 
     axios
       .post(`http://143.110.190.164:3000/teacher/classroom/create`, userData)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
-
   return (
     <>
       <Form
@@ -108,9 +156,11 @@ export default function CreateClassroom() {
                 style={{ width: "100%" }}
                 placeholder="Select students..."
                 options={students.map((option: any) => ({
-                  value: option.firstName,
+                  value: option._id,
                   label: option.firstName.toString(),
                 }))}
+                onChange={handleSelectChange}
+                value={selectedStudents}
               />
             </Form.Item>
           )}

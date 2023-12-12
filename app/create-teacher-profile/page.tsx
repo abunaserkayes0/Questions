@@ -7,31 +7,37 @@ import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 export default function CreateTeacherProfile() {
   const [form] = Form.useForm();
+  const router = useRouter();
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm();
+
   const onSubmit = (data: any) => {
-    console.log(data);
     const userData = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      username: data.userName,
-      password: "",
-      email: data.userEmail,
-      picture: "",
-      dateOfBirth: data.dateOfBirth,
-      classrooms: [],
-      exams: [],
+      firstName: data.firstname,
+      lastName: data.lastname,
+      username: data.username,
+      email: data.email,
+      password: data.password,
     };
 
     axios
       .post(`http://143.110.190.164:3000/teacher/profile/create`, userData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        if (response.data) {
+          toast.success("Data submit successful");
+          // router.push("/view-teacher-profile");
+        }
+      })
       .catch((err) => console.log(err));
+    reset();
   };
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
@@ -104,14 +110,14 @@ export default function CreateTeacherProfile() {
               </h2>
               <Card>
                 <Controller
-                  name={`firstName`}
+                  name={`firstname`}
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
-                      <Input {...field} placeholder="first_name" />
+                      <Input {...field} placeholder="Enter First Name" />
                       <ErrorMessage
                         errors={errors}
-                        name="first_name"
+                        name="firstname"
                         render={({ message }) => (
                           <p className="text-red-400">{message}</p>
                         )}
@@ -120,14 +126,14 @@ export default function CreateTeacherProfile() {
                   )}
                 />
                 <Controller
-                  name={`lastName`}
+                  name={`lastname`}
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
-                      <Input {...field} placeholder="last_name" />
+                      <Input {...field} placeholder="Enter Last Name" />
                       <ErrorMessage
                         errors={errors}
-                        name="last_name"
+                        name="lastname"
                         render={({ message }) => (
                           <p className="text-red-400">{message}</p>
                         )}
@@ -140,7 +146,7 @@ export default function CreateTeacherProfile() {
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
-                      <Input {...field} placeholder="email" />
+                      <Input {...field} placeholder="Enter email" />
                       <ErrorMessage
                         errors={errors}
                         name="email"
@@ -152,6 +158,39 @@ export default function CreateTeacherProfile() {
                   )}
                 />
                 <Controller
+                  name={`username`}
+                  control={control}
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Input {...field} placeholder="Enter UserName" />
+                      <ErrorMessage
+                        errors={errors}
+                        name="username"
+                        render={({ message }) => (
+                          <p className="text-red-400">{message}</p>
+                        )}
+                      />
+                    </Form.Item>
+                  )}
+                />
+                <Controller
+                  name={`password`}
+                  control={control}
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Input.Password {...field} placeholder="Enter Password" />
+                      <ErrorMessage
+                        errors={errors}
+                        name="password"
+                        render={({ message }) => (
+                          <p className="text-red-400">{message}</p>
+                        )}
+                      />
+                    </Form.Item>
+                  )}
+                />
+
+                {/* <Controller
                   name="picture"
                   control={control}
                   defaultValue={[]}
@@ -177,7 +216,7 @@ export default function CreateTeacherProfile() {
                       )}
                     </Upload>
                   )}
-                />
+                /> */}
               </Card>
             </div>
           )}

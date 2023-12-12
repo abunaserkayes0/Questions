@@ -3,39 +3,42 @@ import React, { useState } from "react";
 import { Button, Card, Form, Input, Upload, message } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { UploadOutlined } from "@ant-design/icons";
 // Upload-image
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 export default function CreateStudentProfile() {
+  const router = useRouter();
   const [form] = Form.useForm();
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => {
-    console.log(data);
     const userData = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      username: data.userName,
-      password: "",
-      email: data.userEmail,
-      picture: null,
-      dateOfBirth: data.dateOfBirth,
-      classrooms: [],
-      exams: [],
+      firstName: data.firstname,
+      lastName: data.lastname,
+      username: data.username,
+      email: data.email,
+      password: data.password,
     };
 
     axios
       .post(`http://143.110.190.164:3000/student/profile/create`, userData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        if (response.status === 201) {
+          toast.success("Data created successfully...");
+        }
+      })
       .catch((err) => console.log(err));
+      reset();
   };
-
   // Image-Upload
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
@@ -108,14 +111,14 @@ export default function CreateStudentProfile() {
               </h2>
               <Card className="shadow">
                 <Controller
-                  name={`firstName`}
+                  name={`firstname`}
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
                       <Input {...field} placeholder="First-Name" />
                       <ErrorMessage
                         errors={errors}
-                        name="first_name"
+                        name="firstname"
                         render={({ message }) => (
                           <p className="text-red-400">{message}</p>
                         )}
@@ -124,14 +127,14 @@ export default function CreateStudentProfile() {
                   )}
                 />
                 <Controller
-                  name={`lastName`}
+                  name={`lastname`}
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
                       <Input {...field} placeholder="Last-Name" />
                       <ErrorMessage
                         errors={errors}
-                        name="last_name"
+                        name="lastname"
                         render={({ message }) => (
                           <p className="text-red-400">{message}</p>
                         )}
@@ -140,14 +143,14 @@ export default function CreateStudentProfile() {
                   )}
                 />
                 <Controller
-                  name={`userName`}
+                  name={`username`}
                   control={control}
                   render={({ field }) => (
                     <Form.Item>
                       <Input {...field} placeholder="Username" />
                       <ErrorMessage
                         errors={errors}
-                        name="Username"
+                        name="username"
                         render={({ message }) => (
                           <p className="text-red-400">{message}</p>
                         )}
@@ -155,23 +158,6 @@ export default function CreateStudentProfile() {
                     </Form.Item>
                   )}
                 />
-                <Controller
-                  name={`dateOfBirth`}
-                  control={control}
-                  render={({ field }) => (
-                    <Form.Item>
-                      <Input {...field} placeholder="Date_of_birth" />
-                      <ErrorMessage
-                        errors={errors}
-                        name="date_of_birth"
-                        render={({ message }) => (
-                          <p className="text-red-400">{message}</p>
-                        )}
-                      />
-                    </Form.Item>
-                  )}
-                />
-
                 <Controller
                   name={`email`}
                   control={control}
@@ -189,9 +175,24 @@ export default function CreateStudentProfile() {
                   )}
                 />
                 <Controller
+                  name={`password`}
+                  control={control}
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Input.Password {...field} placeholder="Password" />
+                      <ErrorMessage
+                        errors={errors}
+                        name="password"
+                        render={({ message }) => (
+                          <p className="text-red-400">{message}</p>
+                        )}
+                      />
+                    </Form.Item>
+                  )}
+                />
+                {/* <Controller
                   name="picture"
                   control={control}
-                  defaultValue={[]}
                   render={({ field }) => (
                     <Upload
                       {...field}
@@ -214,7 +215,7 @@ export default function CreateStudentProfile() {
                       )}
                     </Upload>
                   )}
-                />
+                /> */}
               </Card>
             </div>
           )}

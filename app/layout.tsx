@@ -3,6 +3,7 @@ import Navbar from "@/Components/NavBar/Navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { createContext } from "react";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const AuthContext = createContext({});
@@ -21,6 +22,7 @@ export default function RootLayout({
         <AuthContext.Provider value={authValue}>
           {children}
         </AuthContext.Provider>
+        <Toaster />
       </body>
     </html>
   );

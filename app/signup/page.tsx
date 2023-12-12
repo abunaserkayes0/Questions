@@ -107,7 +107,12 @@ export default function SignUp() {
                 </Form.Item>
               )}
             />
-              <p>Already Have An Account?<Link href="/login" className="underline">Login</Link></p>
+            <p>
+              Already Have An Account?
+              <Link href="/login" className="underline">
+                Login
+              </Link>
+            </p>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button

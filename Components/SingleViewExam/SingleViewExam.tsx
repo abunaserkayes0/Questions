@@ -2,12 +2,9 @@ import { Button, Radio } from "antd";
 import React, { useState } from "react";
 
 const SingleViewExam = ({ question }: any) => {
-  console.log(question);
-
   const [value, setValue] = useState(1);
 
   const onChange = (e: any) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
   return (

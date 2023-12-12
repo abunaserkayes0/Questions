@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import SingleTableRow from "@/Components/SingleTableRow/SingleTableRow";
 import { useRouter } from "next/navigation";
 import useFetchStudents from "@/hooks/useFetchStudents";
+import { log } from "console";
 
 export default function viewStudentProfile() {
   const router = useRouter();
   const [student, setStudent] = useState({});
   const { students } = useFetchStudents();
+
   const handelClick = (id: any) => {
     axios
       .get(`http://143.110.190.164:3000/student/profile/find/${id}`)

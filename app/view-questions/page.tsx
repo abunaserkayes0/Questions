@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import SingleQuestion from "@/Components/SingleQuestion/SingleQuestion";
@@ -23,7 +23,7 @@ export default function ViewQuestions() {
       .catch((err) => console.log(err));
   };
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {questions.map((question, index) => {
         return (
           <SingleQuestion
@@ -34,6 +34,6 @@ export default function ViewQuestions() {
           />
         );
       })}
-    </>
+    </div>
   );
 }

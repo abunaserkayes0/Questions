@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import React, { useState } from "react";
-import StudentDashboard from "@/Components/StudentDashboard/StudentDashboard";
 import useFetchTeachers from "@/hooks/useFetchTeachers";
 import TeacherDashboard from "@/Components/TeacherDashboard/TeacherDashboard";
 

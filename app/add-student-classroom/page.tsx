@@ -12,7 +12,6 @@ export default function AddStudentClassRoom() {
   const [form] = Form.useForm();
   const { teachers } = useFetchTeachers();
   const { students } = useFetchStudents();
-  console.log(students);
 
   const transformData = (teacher: any) =>
     students.map((teacher: any) => ({
@@ -32,8 +31,6 @@ export default function AddStudentClassRoom() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-
     const userData = {
       classroom: data.classroom,
       teachers: value,
