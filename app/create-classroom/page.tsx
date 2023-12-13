@@ -7,9 +7,9 @@ import useFetchTeachers from "@/hooks/useFetchTeachers";
 import useFetchStudents from "@/hooks/useFetchStudents";
 import axios from "axios";
 export default function CreateClassroom() {
-  const [value, setValue] = useState();
-  const [teacherInfo, setTeacherInfo] = useState({});
-  const [studentInfo, setStudentInfo] = useState<any[]>([]);
+  const [value, setValue] = useState(null);
+  // const [teacherInfo, setTeacherInfo] = useState({});
+  // const [studentInfo, setStudentInfo] = useState<any[]>([]);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [form] = Form.useForm();
   const { teachers } = useFetchTeachers();
@@ -18,22 +18,24 @@ export default function CreateClassroom() {
   const transformData = (teacher: any) =>
     teachers.map((teacher: any) => ({
       value: teacher._id,
-      title: teacher.firstName,
+      title: teacher.firstName + " " + "(" + teacher._id.slice(0, 7) + ")",
     }));
 
   const treeData = transformData(teachers);
   const onChange = (newValue: any) => {
     setValue(newValue);
   };
+  const handleSelectChange = (selectedValues: any) => {
+    setSelectedStudents(selectedValues);
+  };
+  // const [isLoading, setIsLoading] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
+  /* useEffect(() => {
     setIsLoading(true);
     loadTeacherDetails(value);
-  }, [value]);
+  }, [value]); */
 
-  const loadTeacherDetails = (id: any) => {
+  /*  const loadTeacherDetails = (id: any) => {
     if (id === undefined) {
       setIsLoading(false);
       return;
@@ -48,12 +50,9 @@ export default function CreateClassroom() {
         console.log(error);
         setIsLoading(false);
       });
-  };
+  }; */
 
-  const handleSelectChange = (selectedValues: any) => {
-    setSelectedStudents(selectedValues);
-  };
-  useEffect(() => {
+  /* useEffect(() => {
     setIsLoading(true);
     if (selectedStudents.length > 0) {
       loadStudentDetails(selectedStudents);
@@ -72,26 +71,28 @@ export default function CreateClassroom() {
           setIsLoading(false);
         });
     });
-  };
+  }; */
 
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data: any) => {
     const userData = {
       name: data.classroom,
-      teacher: { teacherInfo },
-      students: studentInfo,
+      teacher: value,
+      students: selectedStudents,
     };
-    console.log(userData);
-
     axios
       .post(`http://143.110.190.164:3000/teacher/classroom/create`, userData)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
+    setValue(null);
+    setSelectedStudents([]);
+    reset();
   };
   return (
     <>
@@ -157,7 +158,8 @@ export default function CreateClassroom() {
                 placeholder="Select students..."
                 options={students.map((option: any) => ({
                   value: option._id,
-                  label: option.firstName.toString(),
+                  label:
+                    option.firstName + " " + "(" + option._id.slice(0, 6) + ")",
                 }))}
                 onChange={handleSelectChange}
                 value={selectedStudents}
