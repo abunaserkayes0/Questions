@@ -1,60 +1,22 @@
-import { Button } from "antd";
+"use client";
 import React from "react";
+import useFetchClassRoom from "@/hooks/useFetchClassRoom";
+import SingleViewClassRoom from "@/Components/SingleViewClassRoom/SingleViewClassRoom";
 
-export default function ViewClassroom({ question, index }: any) {
+export default function ViewClassroom() {
+  const { classRooms, setClassRooms } = useFetchClassRoom();
+
   return (
-    <div
-      className="bg-gray-100 flex items-center justify-center"
-      key={question?._id}
-    >
-      <div className="bg-white p-8 rounded shadow-md w-full my-5 sm:w-96">
-        <h2 className="text-2xl font-bold mb-4">Create ClassRoom</h2>
-
-        <div className="mb-4 flex justify-between">
-          <label
-            htmlFor="username"
-            className="block text-gray-600 text-sm font-medium mb-2"
-          >
-            ClassRoom
-          </label>
-          <span>{question?.options[0]}</span>
-        </div>
-
-        <div className="mb-4 flex justify-between">
-          <label
-            htmlFor="username"
-            className="block text-gray-600 text-sm font-medium mb-2"
-          >
-            Course Teacher
-          </label>
-          <span>{question?.options[1]}</span>
-        </div>
-
-        <div className="mb-4 flex justify-between">
-          <label
-            htmlFor="username"
-            className="block text-gray-600 text-sm font-medium mb-2"
-          >
-            Selected Students
-          </label>
-          <span>{question?.options[2]}</span>
-        </div>
-
-        <Button
-          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          htmlType="submit"
-          size="large"
-        >
-          Edit
-        </Button>
-        <Button
-          className="bg-black text-white hover:bg-white hover:text-black w-full  mb-5"
-          htmlType="submit"
-          size="large"
-        >
-          Delete
-        </Button>
-      </div>
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+      {classRooms.map((classRoom: any, index: any) => (
+        <SingleViewClassRoom
+          key={classRoom._id}
+          classRoom={classRoom}
+          classRooms={classRooms}
+          setClassRooms={setClassRooms}
+          index={index}
+        />
+      ))}
     </div>
   );
 }
